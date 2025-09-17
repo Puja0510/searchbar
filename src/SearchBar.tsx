@@ -1,31 +1,34 @@
-// SearchBar.tsx
-import { FC } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import React from "react";
 
-interface SearchBarProps {
+interface Props {
   query: string;
   setQuery: (q: string) => void;
   onSearch: () => void;
+  loading?: boolean;
 }
 
-const SearchBar: FC<SearchBarProps> = ({ query, setQuery, onSearch }) => {
+const SearchBar: React.FC<Props> = ({ query, setQuery, onSearch, loading }) => {
   return (
-    <InputGroup>
-      <Form.Control
+    <form
+      className="d-flex search-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSearch();
+      }}
+    >
+      <input
+        type="text"
         placeholder="Search products..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && onSearch()}
-        style={{ borderRadius: "0.25rem 0 0 0.25rem" }}
+        className="form-control me-2 search-input"
+        aria-label="Search products"
+        disabled={loading}
       />
-      <Button
-        onClick={onSearch}
-        variant="primary"
-        style={{ borderRadius: "0 0.25rem 0.25rem 0" }}
-      >
-        Search
-      </Button>
-    </InputGroup>
+      <button type="submit" className="btn btn-primary search-button" disabled={loading}>
+        {loading ? "..." : "Search"}
+      </button>
+    </form>
   );
 };
 

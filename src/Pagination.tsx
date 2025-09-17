@@ -5,51 +5,43 @@ interface Props {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  loading?: boolean;
 }
 
-const PaginationComp: FC<Props> = ({ currentPage, totalPages, onPageChange }) => {
+const PaginationComp: FC<Props> = ({ currentPage, totalPages, onPageChange, loading }) => {
   return (
     <div className="d-flex justify-content-center my-3">
       <ButtonGroup>
-        {/* First Page */}
         <Button
-          variant="outline-primary"
+          aria-label="First page"
           onClick={() => onPageChange(1)}
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || loading}
         >
-          &laquo;
+          ⏮ First
         </Button>
-
-        {/* Previous Page */}
         <Button
-          variant="outline-primary"
+          aria-label="Previous page"
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage <= 1}
+          disabled={currentPage <= 1 || loading}
         >
-          Prev
+          ◀ Previous
         </Button>
-
-        {/* Current Page Display */}
-        <Button variant="primary" disabled>
+        <Button disabled>
           {currentPage} / {totalPages}
         </Button>
-
-        {/* Next Page */}
         <Button
-          variant="outline-primary"
+          aria-label="Next page"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages}
+          disabled={currentPage >= totalPages || loading}
         >
-          Next
+          Next ▶
         </Button>
-
-        {/* Last Page */}
         <Button
-          variant="outline-primary"
+          aria-label="Last page"
           onClick={() => onPageChange(totalPages)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || loading}
         >
-          &raquo;
+          Last ⏭
         </Button>
       </ButtonGroup>
     </div>
