@@ -6,11 +6,24 @@ interface Props {
   totalPages: number;
   onPageChange: (page: number) => void;
   loading?: boolean;
+  searchTerm?: string; // new prop
 }
 
-const PaginationComp: FC<Props> = ({ currentPage, totalPages, onPageChange, loading }) => {
+const PaginationComp: FC<Props> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  loading,
+  searchTerm,
+}) => {
   return (
-    <div className="d-flex justify-content-center my-3">
+    <div className="d-flex justify-content-between align-items-center my-3 w-100">
+      {/* Left: searched term */}
+      <div style={{ fontWeight: "bold" }}>
+        Showing results for: <span className="text-primary">{searchTerm || "All"}</span>
+      </div>
+
+      {/* Right: pagination buttons */}
       <ButtonGroup>
         <Button
           aria-label="First page"

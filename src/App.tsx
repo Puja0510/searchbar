@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
+import HeroSection from "./HeroSection";
 import type { CancelTokenSource } from "axios";
 import SearchBar from "./SearchBar";
 import ProductCard from "./ProductCard";
@@ -24,6 +25,7 @@ export interface Product {
 const SITE_ID = "scmq7n";
 
 function App() {
+  const productListRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("jeans");
   const [products, setProducts] = useState<Product[]>([]);
@@ -33,6 +35,12 @@ function App() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const scrollToProducts = () => {
+  if (productListRef.current) {
+    productListRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
   const fetchProducts = useCallback(
     async (term: string, page = 1, cancelToken?: CancelTokenSource) => {
@@ -107,7 +115,7 @@ function App() {
         display: "flex",
         flexDirection: "column",
         backgroundImage:
-          "url('https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1950&q=80')",
+          "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:AN…bEUtJi2QPJf4Mw2ULJ_tyWQBxTxMmJvO4EflP0zo&usqp=CAU')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -137,9 +145,11 @@ function App() {
 
       {/* Main Content */}
       <Container
+       ref={productListRef}
         className="flex-grow-1 d-flex flex-column justify-content-start align-items-center py-4"
         style={{ maxWidth: "1200px", position: "relative", minHeight: "600px" }}
       >
+        <HeroSection scrollToProducts={scrollToProducts} />
         {error && <Alert variant="warning">{error}</Alert>}
 
         {!error && products.length > 0 && (
@@ -148,6 +158,7 @@ function App() {
               currentPage={pagination.currentPage}
               totalPages={pagination.totalPages}
               onPageChange={handlePageChange}
+              searchTerm={searchTerm}
             />
             <Row className="justify-content-center w-100 mb-5">
               {products.map((product) => (
@@ -167,6 +178,7 @@ function App() {
               currentPage={pagination.currentPage}
               totalPages={pagination.totalPages}
               onPageChange={handlePageChange}
+              searchTerm={searchTerm}
             />
           </>
         )}
