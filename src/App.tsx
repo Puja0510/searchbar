@@ -102,7 +102,7 @@ function App() {
     setPagination((p) => ({ ...p, currentPage: page }));
   };
 
-  // ✅ Show full screen loader until data ready
+  // Show full screen loader until data ready
   if (loading) {
     return <Loader message="Loading products, please wait..." />;
   }
@@ -134,7 +134,7 @@ function App() {
               style={{ width: "30px", height: "30px", marginRight: "10px" }}
             />
             <h2 className="fw-bold mb-0" style={{ fontSize: "1.5rem" }}>
-              SearchDemo
+              DesireFinder
             </h2>
           </div>
           <div style={{ width: "300px", minWidth: "200px" }}>
